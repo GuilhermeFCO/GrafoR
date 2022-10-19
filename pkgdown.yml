@@ -1,0 +1,10 @@
+pandoc: 2.14.2
+pkgdown: 2.0.6
+pkgdown_sha: ~
+articles:
+  Starting: Starting.html
+last_built: 2022-10-19T21:08Z
+urls:
+  reference: https://guilhermefco.github.io/grafoR/reference
+  article: https://guilhermefco.github.io/grafoR/articles
+
