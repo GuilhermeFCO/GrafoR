@@ -1,3 +1,12 @@
+#' grafo
+#'
+#' @param nVertices
+#' @param arestas
+#'
+#' @return
+#' @export
+#'
+#' @examples
 grafo <- function(nVertices, arestas) {
 	novoGrafo <- list()
 
@@ -18,14 +27,25 @@ grafo <- function(nVertices, arestas) {
 	return(novoGrafo)
 }
 
+#' printGrafo
+#'
+#' @param x
+#' @param pesos
+#'
+#' @return
+#' @export
+#'
+#' @examples
 printGrafo <- function(x, pesos = FALSE) {
 	cat("\n\n")
 	if (!pesos) {
 		for (i in 1:length(x)) {
 			cat(paste0("[", names(x)[i], "] -> "))
 
-			for (j in 1:length(x[[i]])) {
-				cat(paste0(x[[i]][[j]]$vertice, " -> "))
+			if (length(x[[i]])) {
+				for (j in 1:length(x[[i]])) {
+					cat(paste0(x[[i]][[j]]$vertice, " -> "))
+				}
 			}
 
 			cat("≡\n\n")
@@ -34,8 +54,10 @@ printGrafo <- function(x, pesos = FALSE) {
 		for (i in 1:length(x)) {
 			cat(paste0("[", names(x)[i], "] -> "))
 
-			for (j in 1:length(x[[i]])) {
-				cat(paste0(x[[i]][[j]]$vertice, " (", x[[i]][[j]]$peso, ")", " -> "))
+			if (length(x[[i]])) {
+				for (j in 1:length(x[[i]])) {
+					cat(paste0(x[[i]][[j]]$vertice, " (", x[[i]][[j]]$peso, ")", " -> "))
+				}
 			}
 
 			cat("≡\n\n")
@@ -43,6 +65,14 @@ printGrafo <- function(x, pesos = FALSE) {
 	}
 }
 
+#' grafoDeArquivo
+#'
+#' @param caminho
+#'
+#' @return
+#' @export
+#'
+#' @examples
 grafoDeArquivo <- function(caminho) {
 	arquivo <- readLines(caminho)
 
