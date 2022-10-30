@@ -22,6 +22,36 @@
     <loc>https://guilhermefco.github.io/grafoR/news/index.html</loc>
   </url>
   <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/grafo.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/grafoDeArquivo.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/grau.html</loc>
+  </url>
+  <url>
     <loc>https://guilhermefco.github.io/grafoR/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/matrizAdjacencia.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/ordem.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/printGrafo.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/sequenciaGraus.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/tamanho.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/vizinhos.html</loc>
   </url>
 </urlset>
