@@ -107,3 +107,134 @@ sequenciaGraus <- function(x) {
 
 	return(graus)
 }
+
+#' menorCaminho
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+menorCaminho <- function(x) {
+	n <- length(x)
+	L <- matrix(NA, nrow = n, ncol = n)
+	R <- matrix(NA, nrow = n, ncol = n)
+
+	for (i in 1:n) {
+		for (j in 1:n) {
+			if (i == j) L[i, j] <- 0
+			else {
+				flag = FALSE
+				for (k in 1:length(x[[i]])) {
+					if (x[[i]][[k]]$vertice == j) {
+						flag = TRUE
+						break
+					}
+				}
+				if (flag) L[i, j] <- x[[i]][[k]]$peso
+				else L[i, j] <- Inf
+			}
+			if (is.infinite(L[i, j])) R[i, j] <- 0
+			else R[i, j] <- i
+		}
+	}
+
+	for (k in 1:n) {
+		for (i in 1:n) {
+			for (j in 1:n) {
+				if (L[i, j] > L[i, k] + L[k, j]) {
+					L[i, j] <- L[i, k] + L[k, j]
+					R[i, j] <- R[k, j]
+				}
+			}
+		}
+	}
+	colnames(L) <- c(1:n)
+	rownames(L) <- c(1:n)
+
+	colnames(R) <- c(1:n)
+	rownames(R) <- c(1:n)
+
+	return(list(L, R))
+}
+
+#' excentricidade
+#'
+#' @param x
+#' @param vertice
+#'
+#' @return
+#' @export
+#'
+#' @examples
+excentricidade <- function(x, vertice) {
+	L <- menorCaminho(x)[[1]]
+	vertices <- colnames(L)[L[vertice, ] == max(L[vertice, ])]
+	distancias <- L[vertice, L[vertice, ] == max(L[vertice, ])]
+	return(list(vertices, distancias))
+}
+
+#' raio
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+raio <- function(x) {
+	L <- menorCaminho(x)[[1]]
+
+	for (i in 1:nrow(L)) {
+		aux <- excentricidade(x, i)
+		vertices <- aux[[1]]
+		distancias <- aux[[2]]
+
+		if (i == 1) {
+			min <- as.integer(distancias[1])
+			minVertice <- paste0(i, " - ", vertices)
+		} else {
+			if (distancias[1] < min) {
+				min <- as.integer(distancias[1])
+				minVertice <- paste0(i, " - ", vertices)
+			}
+		}
+	}
+
+	return(list(min, minVertice))
+}
+
+#' diametro
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+diametro <- function(x) {
+	L <- menorCaminho(x)[[1]]
+
+	for (i in 1:nrow(L)) {
+		aux <- excentricidade(x, i)
+		vertices <- aux[[1]]
+		distancias <- aux[[2]]
+
+		if (i == 1) {
+			max <- as.integer(distancias[1])
+			maxVertice <- paste0(i, " - ", vertices)
+		} else {
+			if (distancias[1] > max) {
+				max <- as.integer(distancias[1])
+				maxVertice <- paste0(i, " - ", vertices)
+			}
+		}
+	}
+
+	return(list(max, maxVertice))
+}
+
+centro <- function(x) {
+
+}
