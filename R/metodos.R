@@ -159,6 +159,30 @@ menorCaminho <- function(x) {
 	return(list(L, R))
 }
 
+#' distanciaCaminhoMinimo
+#'
+#' @param x
+#' @param vertice
+#' @param verticeDestino
+#'
+#' @return
+#' @export
+#'
+#' @examples
+distanciaCaminhoMinimo <- function(x, vertice, verticeDestino) {
+	aux <- menorCaminho(x)
+	L <- aux[[1]]
+	R <- aux[[2]]
+	caminho <- c(verticeDestino)
+	atual <- verticeDestino
+	while (atual != vertice) {
+		caminho <- c(caminho, R[vertice, atual])
+		atual <- R[vertice, atual]
+	}
+	caminho <- rev(caminho)
+	return(list(L[vertice, verticeDestino], caminho))
+}
+
 #' excentricidade
 #'
 #' @param x
@@ -171,8 +195,8 @@ menorCaminho <- function(x) {
 excentricidade <- function(x, vertice) {
 	L <- menorCaminho(x)[[1]]
 	vertices <- colnames(L)[L[vertice, ] == max(L[vertice, ])]
-	distancias <- L[vertice, L[vertice, ] == max(L[vertice, ])]
-	return(list(vertices, distancias))
+	distancia <- L[vertice, L[vertice, ] == max(L[vertice, ])][1]
+	return(list(vertices, distancia))
 }
 
 #' raio
@@ -184,20 +208,24 @@ excentricidade <- function(x, vertice) {
 #'
 #' @examples
 raio <- function(x) {
-	L <- menorCaminho(x)[[1]]
-
-	for (i in 1:nrow(L)) {
+	for (i in 1:length(x)) {
 		aux <- excentricidade(x, i)
 		vertices <- aux[[1]]
-		distancias <- aux[[2]]
+		distancia <- aux[[2]]
 
 		if (i == 1) {
-			min <- as.integer(distancias[1])
-			minVertice <- paste0(i, " - ", vertices)
+			min <- as.integer(distancia)
+			minVertice <- i
+			destinoVertices <- vertices
+			count = 2
 		} else {
-			if (distancias[1] < min) {
-				min <- as.integer(distancias[1])
-				minVertice <- paste0(i, " - ", vertices)
+			if (distancia < min) {
+				min <- as.integer(distancia)
+				minVertice <- list(list(i, vertices))
+				count <- 2
+			} else if (distancia == min) {
+				minVertice[[count]] <- list(i, vertices)
+				count = count + 1
 			}
 		}
 	}
@@ -214,20 +242,23 @@ raio <- function(x) {
 #'
 #' @examples
 diametro <- function(x) {
-	L <- menorCaminho(x)[[1]]
-
-	for (i in 1:nrow(L)) {
+	for (i in 1:length(x)) {
 		aux <- excentricidade(x, i)
 		vertices <- aux[[1]]
-		distancias <- aux[[2]]
+		distancia <- aux[[2]]
 
 		if (i == 1) {
-			max <- as.integer(distancias[1])
-			maxVertice <- paste0(i, " - ", vertices)
+			max <- as.integer(distancia)
+			maxVertice <- list(list(i, vertices))
+			count = 2
 		} else {
-			if (distancias[1] > max) {
-				max <- as.integer(distancias[1])
-				maxVertice <- paste0(i, " - ", vertices)
+			if (distancia > max) {
+				max <- as.integer(distancia)
+				maxVertice <- list(list(i, vertices))
+				count = 2
+			} else if (distancia == max) {
+				maxVertice[[count]] <- list(i, vertices)
+				count = count + 1
 			}
 		}
 	}
@@ -235,6 +266,79 @@ diametro <- function(x) {
 	return(list(max, maxVertice))
 }
 
+#' centro
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples
 centro <- function(x) {
+	vertices <- raio(x)[[2]]
+	verticesCentro <- c()
+	for (i in 1:length(vertices)) {
+		verticesCentro <- c(verticesCentro, vertices[[i]][[1]])
+	}
+	return(verticesCentro)
+}
 
+#' buscaProfundidade
+#'
+#' @param x
+#' @param vertice
+#' @param visitados
+#' @param arestasOut
+#' @param matriz
+#'
+#' @return
+#' @export
+#'
+#' @examples
+buscaProfundidade <- function(x, vertice, visitados = c(), arestasOut = c(), matriz = NULL) {
+	visitados <- c(visitados, vertice)
+
+	if (is.null(matriz)) {
+		matriz <- matrix(0, nrow = length(x), ncol = length(x))
+	}
+
+	for (v in vizinhos(x, vertice)) {
+		if (!(v %in% visitados)) {
+			matriz[vertice, v] <- 1
+			matriz[v, vertice] <- 1
+			aux <- buscaProfundidade(x, v, visitados, arestasOut, matriz)
+			visitados <- aux[[1]]
+			matriz <- aux[[2]]
+			arestasOut <- aux[[3]]
+		} else {
+			if (matriz[vertice, v] == 0) {
+				if (vertice < v) {
+					arestasOut <- c(arestasOut, paste0(vertice, " - ", v))
+				} else {
+					arestasOut <- c(arestasOut, paste0(v, " - ", vertice))
+				}
+				matriz[vertice, v] <- 1
+				matriz[v, vertice] <- 1
+			}
+		}
+	}
+
+	return(list(visitados, matriz, arestasOut))
+}
+
+#' centralidade
+#'
+#' @param x
+#' @param vertice
+#'
+#' @return
+#' @export
+#'
+#' @examples
+centralidade <- function(x, vertice) {
+	sum = 0
+	for (i in (1:length(x))[-vertice]) {
+		sum = sum + distanciaCaminhoMinimo(x, vertice, i)[[1]]
+	}
+	return((length(x)-1)/sum)
 }

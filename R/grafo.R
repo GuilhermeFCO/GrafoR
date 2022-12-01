@@ -42,10 +42,8 @@ printGrafo <- function(x, pesos = FALSE) {
 		for (i in 1:length(x)) {
 			cat(paste0("[", names(x)[i], "] -> "))
 
-			if (length(x[[i]])) {
-				for (j in 1:length(x[[i]])) {
-					cat(paste0(x[[i]][[j]]$vertice, " -> "))
-				}
+			for (j in 1:length(x[[i]])) {
+				cat(paste0(x[[i]][[j]]$vertice, " -> "))
 			}
 
 			cat("≡\n\n")
@@ -54,10 +52,8 @@ printGrafo <- function(x, pesos = FALSE) {
 		for (i in 1:length(x)) {
 			cat(paste0("[", names(x)[i], "] -> "))
 
-			if (length(x[[i]])) {
-				for (j in 1:length(x[[i]])) {
-					cat(paste0(x[[i]][[j]]$vertice, " (", x[[i]][[j]]$peso, ")", " -> "))
-				}
+			for (j in 1:length(x[[i]])) {
+				cat(paste0(x[[i]][[j]]$vertice, " (", x[[i]][[j]]$peso, ")", " -> "))
 			}
 
 			cat("≡\n\n")
