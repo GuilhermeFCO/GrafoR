@@ -17,6 +17,7 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Imports: 
+    jsonlite,
     magrittr
 Depends: 
     R (>= 2.10)

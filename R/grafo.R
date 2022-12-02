@@ -74,3 +74,63 @@ grafoDeArquivo <- function(caminho) {
 
 	return(grafo(arquivo[1] %>% as.numeric(), arquivo[2:length(arquivo)]))
 }
+
+
+#' grafoFromJSON
+#'
+#' @param path
+#' @param pathToSave
+#'
+#' @return
+#' @export
+#'
+#' @examples
+grafoFromJSON <- function(path, pathToSave) {
+	x <- jsonlite::read_json(path)
+	cat(x$data$nodes$length, sep = "\n", file = pathToSave)
+	for (i in 1:x$data$edges$length) {
+		aux <- x$data$edges$`_data`[[i]]
+		cat(paste0(aux$from, " ", aux$to, " ", aux$label), sep = "\n", append = TRUE, file = pathToSave)
+	}
+}
+
+#' grafoToJSON
+#'
+#' @param path
+#' @param pathToSave
+#'
+#' @return
+#' @export
+#'
+#' @examples
+grafoToJSON <- function(path, pathToSave) {
+	x <- grafoDeArquivo(path)
+	aux <- get("json")
+	aux$data$nodes$length <- ordem(x)
+	aux$data$edges$length <- tamanho(x)
+
+	for (i in 1:ordem(x)) {
+		aux$data$nodes$`_data`[[i]] <- list("id" = i, "label" = i)
+	}
+	names(aux$data$nodes$`_data`) <- 1:ordem(x)
+	matriz <- matrizAdjacencia(x)
+	count <- 1
+
+	for (i in 1:nrow(matriz)) {
+		for (j in i:nrow(matriz)) {
+			if (matriz[i, j] == 1) {
+				for (k in 1:length(x[[i]])) {
+					if (x[[i]][[k]]$vertice == j) {
+						aux$data$edges$`_data`[[count]] <- list("from" = i, "to" = j, "id" = count, "color" = list(), "label" = x[[i]][[k]]$peso)
+						break
+					}
+				}
+				count = count + 1
+			}
+		}
+	}
+	names(aux$data$edges$`_data`) <- 1:tamanho(x)
+
+	aux <- jsonlite::toJSON(aux, auto_unbox = TRUE)
+	write(aux, pathToSave)
+}
