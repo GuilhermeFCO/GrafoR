@@ -20,16 +20,18 @@ ordem <- function(x) {
 #' @examples
 matrizAdjacencia <- function(x) {
 	matriz <- matrix(0, nrow = ordem(x), ncol = ordem(x))
+	matrizPeso <- matrix(0, nrow = ordem(x), ncol = ordem(x))
 
 	for (i in 1:length(x)) {
 		if (length(x[[i]])) {
 			for (j in 1:length(x[[i]])) {
 				matriz[i, x[[i]][[j]]$vertice] <- 1
+				matrizPeso[i, x[[i]][[j]]$vertice] <- x[[i]][[j]]$peso
 			}
 		}
 	}
 
-	return(matriz)
+	return(list(matriz, matrizPeso))
 }
 
 #' tamanho
@@ -41,7 +43,7 @@ matrizAdjacencia <- function(x) {
 #'
 #' @examples
 tamanho <- function(x) {
-	matriz <- matrizAdjacencia(x)
+	matriz <- matrizAdjacencia(x)[[1]]
 
 	soma = 0
 
@@ -341,4 +343,205 @@ centralidade <- function(x, vertice) {
 		sum = sum + distanciaCaminhoMinimo(x, vertice, i)[[1]]
 	}
 	return((length(x)-1)/sum)
+}
+
+#' possuiCiclo
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+possuiCiclo <- function(x) {
+	for (i in 1:length(x)) {
+		if (length(buscaProfundidade(x, i)[[3]]) != 0) return(TRUE)
+	}
+	return(FALSE)
+}
+
+#' arvoreMinima
+#'
+#' @param x
+#' @param path
+#'
+#' @return
+#' @export
+#'
+#' @examples
+arvoreMinima <- function(x, path = NULL) {
+	matriz <- matrizAdjacencia(x)[[2]]
+
+	aresta <- c()
+	arestaDestino <- c()
+	pesos <- c()
+	for (i in 1:nrow(matriz)) {
+		for (j in i:ncol(matriz)) {
+			if (matriz[i, j] != 0) {
+				pesos <- c(pesos, matriz[i, j])
+				aresta <- c(aresta, i)
+				arestaDestino <- c(arestaDestino, j)
+			}
+		}
+	}
+
+	df <- data.frame(pesos, aresta, arestaDestino)
+	df <- df %>% dplyr::arrange(pesos)
+
+	arestas <- c()
+	soma <- 0
+	for (i in 1:nrow(df)) {
+		if (i == 1) {
+			arestas <- c(arestas, paste(df$aresta[i], df$arestaDestino[i], df$pesos[i], sep = " "))
+			soma = soma + df$pesos[i]
+		} else {
+			arestas <- c(arestas, paste(df$aresta[i], df$arestaDestino[i], df$pesos[i], sep = " "))
+			aux <- grafo(length(x), arestas)
+			if (possuiCiclo(aux)) {
+				arestas <- arestas[-length(arestas)]
+			} else {
+				soma = soma + df$pesos[i]
+			}
+		}
+	}
+
+	final <- grafo(length(x), arestas)
+	if (!is.null(path)) {
+		grafoToFile(final, path)
+		cat(paste0("\n\n", soma), file = path, sep = "\n", append = TRUE)
+	}
+
+	return(list(final, soma))
+}
+
+#' coberturaMinima
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+coberturaMinima <- function(x) {
+	matriz <- matrizAdjacencia(x)[[1]]
+
+	aresta <- c()
+	arestaDestino <- c()
+	for (i in 1:nrow(matriz)) {
+		for (j in i:ncol(matriz)) {
+			if (matriz[i, j] == 1) {
+				aresta <- c(aresta, i)
+				arestaDestino <- c(arestaDestino, j)
+			}
+		}
+	}
+	dfArestas <- data.frame(aresta, arestaDestino, naoPertence = TRUE)
+
+	vertice <-c(1:length(x))
+	graus <- c()
+	for (i in 1:length(x)) {
+		graus <- c(graus, grau(x, i))
+	}
+	dfVertice <- data.frame(vertice, graus)
+	dfVertice <- dfVertice %>% dplyr::arrange(desc(graus))
+
+	vertices <- c()
+	numeroDeCobertura <- 0
+	for (i in 1:nrow(dfVertice)) {
+		vertices <- c(vertices, dfVertice$vertice[i])
+		dfArestas$naoPertence[dfArestas$aresta == dfVertice$vertice[i] | dfArestas$arestaDestino == dfVertice$vertice[i]] <- FALSE
+		numeroDeCobertura <- numeroDeCobertura + 1
+		if (!any(dfArestas$naoPertence)) {
+			break
+		}
+	}
+
+	return(list(sort(vertices), numeroDeCobertura))
+}
+
+#' emparelhamentoMaximo
+#'
+#' @param x
+#'
+#' @return
+#' @export
+#'
+#' @examples
+emparelhamentoMaximo <- function(x) {
+	matriz <- matrizAdjacencia(x)[[1]]
+
+	aresta <- c()
+	arestaDestino <- c()
+	for (i in 1:nrow(matriz)) {
+		for (j in i:ncol(matriz)) {
+			if (matriz[i, j] == 1) {
+				aresta <- c(aresta, i)
+				arestaDestino <- c(arestaDestino, j)
+			}
+		}
+	}
+	dfArestas <- data.frame(aresta, arestaDestino, emparelhada = FALSE)
+	dfVertice <- data.frame(vertices = c(1:length(x)), saturado = FALSE)
+
+	while (TRUE) {
+		aux <- acharMatching(x, dfArestas, dfVertice)
+		dfArestas <- aux[[1]]
+		dfVertice <- aux[[2]]
+		if (!aux[[3]]) break
+	}
+
+	dfArestas <- dfArestas[dfArestas$emparelhada == TRUE,]
+	final <- c()
+	for (i in 1:nrow(dfArestas)) {
+		final <- c(final, paste0(dfArestas$aresta[i], " - ", dfArestas$arestaDestino[i]))
+	}
+	return(final)
+}
+
+acharMatching <- function(x, arestas, vertices) {
+	aux <- vertices[vertices$saturado == FALSE,]
+	if (nrow(aux) != 0) {
+		for (i in 1:nrow(aux)) {
+			caminho <- procurarCaminhoAumentante(x, aux$vertices[i], arestas, vertices)
+
+			if (!is.null(caminho)) {
+				aux2 <- trocarCaminhos(caminho, arestas, vertices)
+				arestas <- aux2[[1]]
+				vertices <- aux2[[2]]
+				return(list(arestas, vertices, TRUE))
+			}
+		}
+	}
+	return(list(arestas, vertices, FALSE))
+}
+
+trocarCaminhos <- function(caminho, arestas, vertices) {
+	for (i in 1:(length(caminho)-1)) {
+		arestas$emparelhada[arestas$aresta == caminho[i] | arestas$arestaDestino == caminho[i]] <- FALSE
+		vertices$saturado[vertices$vertices == caminho[i] | vertices$vertices == caminho[i+1]] <- FALSE
+	}
+
+	for (i in seq(1, length(caminho)-1, 2)) {
+		if (caminho[i] < caminho[i+1]) {
+			arestas$emparelhada[arestas$aresta == caminho[i] & arestas$arestaDestino == caminho[i+1]] <- TRUE
+		} else {
+			arestas$emparelhada[arestas$arestaDestino == caminho[i] & arestas$aresta == caminho[i+1]] <- TRUE
+		}
+		vertices$saturado[vertices$vertices == caminho[i] | vertices$vertices == caminho[i+1]] <- TRUE
+	}
+
+	return(list(arestas, vertices))
+}
+
+procurarCaminhoAumentante <- function(x, vertice, arestas, vertices) {
+	v <- buscaProfundidade(x, vertice)[[1]]
+	caminho <- c(vertice)
+	for (j in 2:length(v)) {
+		caminho <- c(caminho, v[j])
+		if (vertices$saturado[vertices$vertices == v[j]] == FALSE) {
+			return(caminho)
+		}
+	}
+
+	return(NULL)
 }

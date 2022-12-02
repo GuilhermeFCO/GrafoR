@@ -16,7 +16,7 @@ x <- grafo(
 	)
 )
 
-y <- grafoDeArquivo("../../TP1-Guilherme-3398/exemplo")
+y <- grafoDeArquivo("test/exemplo")
 
 grafoR::ordem(y)
 grafoR::tamanho(y)
@@ -25,4 +25,9 @@ grafoR::printGrafo(y, pesos = TRUE)
 grafoR::vizinhos(y, 5)
 grafoR::grau(x, 2)
 grafoR::sequenciaGraus(y)
+
+# Continuação da Entrega do TP1
+
+# Entrega TP2
+
 

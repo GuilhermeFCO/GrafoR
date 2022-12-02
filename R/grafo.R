@@ -75,6 +75,26 @@ grafoDeArquivo <- function(caminho) {
 	return(grafo(arquivo[1] %>% as.numeric(), arquivo[2:length(arquivo)]))
 }
 
+#' grafoToFile
+#'
+#' @param x
+#' @param path
+#'
+#' @return
+#' @export
+#'
+#' @examples
+grafoToFile <- function(x, path) {
+	cat(ordem(x), sep = "\n", file = path, append = FALSE)
+	matriz <- matrizAdjacencia(x)[[2]]
+	for (i in 1:nrow(matriz)) {
+		for (j in i:ncol(matriz)) {
+			if (matriz[i, j] != 0) {
+				cat(paste0(i, " ", j, " ", matriz[i, j]), sep = "\n", append = TRUE, file = path)
+			}
+		}
+	}
+}
 
 #' grafoFromJSON
 #'
@@ -87,11 +107,13 @@ grafoDeArquivo <- function(caminho) {
 #' @examples
 grafoFromJSON <- function(path, pathToSave) {
 	x <- jsonlite::read_json(path)
-	cat(x$data$nodes$length, sep = "\n", file = pathToSave)
+	vertices <- c()
 	for (i in 1:x$data$edges$length) {
 		aux <- x$data$edges$`_data`[[i]]
-		cat(paste0(aux$from, " ", aux$to, " ", aux$label), sep = "\n", append = TRUE, file = pathToSave)
+		vertices <- c(vertices, paste0(aux$from, " ", aux$to, " ", aux$label))
 	}
+	x <- grafo(x$data$nodes$length, vertices)
+	grafoToFile(x, pathToSave)
 }
 
 #' grafoToJSON
