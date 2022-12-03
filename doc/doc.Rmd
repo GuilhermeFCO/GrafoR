@@ -1,0 +1,133 @@
+---
+title: "doc"
+author: "Guilherme Fernandes"
+date: "2022-12-03"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Instalação
+
+```{r, results='hide', error=FALSE, warning=FALSE, message=FALSE}
+remotes::install_github("GuilhermeFCO/grafoR")
+library(grafoR)
+```
+
+# TP1
+
+## Funções para criação de objetos do tipo grafo
+
+A função `grafo(nVertices, arestas)` retorna um objeto do tipo grafo, como parâmetros ele recebe o número de vértices e um vetor com as arestas e seus respectivos pesos.
+
+```{r}
+x <- grafo(
+	6,
+	c(
+		"1 2 1",
+		"1 3 3",
+		"2 3 1",
+		"2 4 3",
+		"2 5 2",
+		"3 4 2",
+		"4 5 3",
+		"4 6 2",
+		"5 6 3"
+	)
+)
+printGrafo(x, pesos = TRUE)
+```
+
+A função `grafoDeArquivo(path)` recebe o caminho do arquivo de entrada e retorna o grafo correspondente.
+
+```{r}
+y <- grafoDeArquivo("./exemplo")
+printGrafo(y)
+```
+
+## Funções feitas no TP1
+
+A função `ordem(x)` retorna a ordem do grafo `x`
+
+```{r}
+grafoR::ordem(y)
+```
+
+A função `tamanho(x)` retorna o tamanho do grafo `x`
+
+```{r}
+grafoR::tamanho(y)
+```
+
+A função `printGrafo(x, pesos=FALSE)` printa o grafo, mostrando ou não os pesos
+
+```{r}
+grafoR::printGrafo(y)
+```
+
+```{r}
+grafoR::printGrafo(y, pesos = TRUE)
+```
+
+A função `vizinhos(x, vertice)` retorna os vizinhos do `vertice` no grafo `x`
+
+```{r}
+grafoR::vizinhos(y, 5)
+```
+
+A função `grau(x, vertice)` retorna o grau do `vertice` no grafo `x`
+
+```{r}
+grafoR::grau(x, 2)
+```
+
+A função `sequenciaGraus(x)` retorna a sequência de graus do grafo `x`
+
+```{r}
+grafoR::sequenciaGraus(y)
+```
+
+# Continuação da entrega do TP1
+
+A função `excentricidade(x, vertice)` retorna os vértices que distancião a excentricidade e a excentricidade do `vertice`
+
+```{r}
+grafoR::excentricidade(y, 2)
+```
+A função `raio(x)` retorna o raio de `x` e os vértices que formam o raio
+
+```{r}
+grafoR::raio(y)
+```
+A função `diametro(x)` retorna o diametro de `x` e os vértices que formam o diametro
+
+```{r}
+diametro(y)
+```
+A função `centro(x)` retorna o centro do grafo `x`
+
+```{r}
+grafoR::centro(y)
+```
+
+A função `buscaProfundidade(x, vertice)` retorna a sequência de vértices visitados, uma matriz com 1 nas arestas que fazem parte da busca em profundidade e as arestas que não pertencem a busca em profundidade.
+
+```{r}
+grafoR::buscaProfundidade(y, 2)
+```
+A função `distanciaCaminhoMinimo(x, vertice, verticeDestino)` retorna a distância e o caminho do `vertice` até o `verticeDestino`
+
+```{r}
+grafoR::distanciaCaminhoMinimo(x, 2, 6)
+```
+
+A função `centralidade(x, vertice)` retorna a centralidade do `vertice` no grafo `x`
+
+```{r}
+grafoR::centralidade(x, 3)
+```
+
+
+# Entrega do TP2

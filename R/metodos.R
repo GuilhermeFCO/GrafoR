@@ -217,7 +217,7 @@ raio <- function(x) {
 
 		if (i == 1) {
 			min <- as.integer(distancia)
-			minVertice <- i
+			minVertice <- list(list(i, vertices))
 			destinoVertices <- vertices
 			count = 2
 		} else {
@@ -319,8 +319,8 @@ buscaProfundidade <- function(x, vertice, visitados = c(), arestasOut = c(), mat
 				} else {
 					arestasOut <- c(arestasOut, paste0(v, " - ", vertice))
 				}
-				matriz[vertice, v] <- 1
-				matriz[v, vertice] <- 1
+				matriz[vertice, v] <- -1
+				matriz[v, vertice] <- -1
 			}
 		}
 	}

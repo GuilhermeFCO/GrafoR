@@ -63,14 +63,14 @@ printGrafo <- function(x, pesos = FALSE) {
 
 #' grafoDeArquivo
 #'
-#' @param caminho
+#' @param path
 #'
 #' @return
 #' @export
 #'
 #' @examples
-grafoDeArquivo <- function(caminho) {
-	arquivo <- readLines(caminho)
+grafoDeArquivo <- function(path) {
+	arquivo <- readLines(path)
 
 	return(grafo(arquivo[1] %>% as.numeric(), arquivo[2:length(arquivo)]))
 }
