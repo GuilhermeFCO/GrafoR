@@ -22,10 +22,46 @@
     <loc>https://guilhermefco.github.io/grafoR/news/index.html</loc>
   </url>
   <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/arvoreMinima.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/buscaProfundidade.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/centralidade.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/centro.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/coberturaMinima.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/diametro.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/distanciaCaminhoMinimo.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/emparelhamentoMaximo.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/excentricidade.html</loc>
+  </url>
+  <url>
     <loc>https://guilhermefco.github.io/grafoR/reference/grafo.html</loc>
   </url>
   <url>
     <loc>https://guilhermefco.github.io/grafoR/reference/grafoDeArquivo.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/grafoFromJSON.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/grafoToFile.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/grafoToJSON.html</loc>
   </url>
   <url>
     <loc>https://guilhermefco.github.io/grafoR/reference/grau.html</loc>
@@ -37,13 +73,22 @@
     <loc>https://guilhermefco.github.io/grafoR/reference/matrizAdjacencia.html</loc>
   </url>
   <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/menorCaminho.html</loc>
+  </url>
+  <url>
     <loc>https://guilhermefco.github.io/grafoR/reference/ordem.html</loc>
   </url>
   <url>
     <loc>https://guilhermefco.github.io/grafoR/reference/pipe.html</loc>
   </url>
   <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/possuiCiclo.html</loc>
+  </url>
+  <url>
     <loc>https://guilhermefco.github.io/grafoR/reference/printGrafo.html</loc>
+  </url>
+  <url>
+    <loc>https://guilhermefco.github.io/grafoR/reference/raio.html</loc>
   </url>
   <url>
     <loc>https://guilhermefco.github.io/grafoR/reference/sequenciaGraus.html</loc>
