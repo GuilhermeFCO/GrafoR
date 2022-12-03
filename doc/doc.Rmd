@@ -109,7 +109,7 @@ grafoR::raio(y)
 A função `diametro(x)` retorna o diametro de `x` e os vértices que formam o diametro.
 
 ```{r}
-diametro(y)
+grafoR::diametro(y)
 ```
 A função `centro(x)` retorna o centro do grafo `x`.
 
