@@ -9,6 +9,10 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Alunos
+
+- Guilherme Fernandes Castro de Oliveira - 3398
+
 # Instalação
 
 ```{r, results='hide', error=FALSE, warning=FALSE, message=FALSE}
@@ -49,19 +53,19 @@ printGrafo(y)
 
 ## Funções feitas no TP1
 
-A função `ordem(x)` retorna a ordem do grafo `x`
+A função `ordem(x)` retorna a ordem do grafo `x.
 
 ```{r}
 grafoR::ordem(y)
 ```
 
-A função `tamanho(x)` retorna o tamanho do grafo `x`
+A função `tamanho(x)` retorna o tamanho do grafo `x`.
 
 ```{r}
 grafoR::tamanho(y)
 ```
 
-A função `printGrafo(x, pesos=FALSE)` printa o grafo, mostrando ou não os pesos
+A função `printGrafo(x, pesos=FALSE)` printa o grafo, mostrando ou não os pesos.
 
 ```{r}
 grafoR::printGrafo(y)
@@ -71,19 +75,19 @@ grafoR::printGrafo(y)
 grafoR::printGrafo(y, pesos = TRUE)
 ```
 
-A função `vizinhos(x, vertice)` retorna os vizinhos do `vertice` no grafo `x`
+A função `vizinhos(x, vertice)` retorna os vizinhos do `vertice` no grafo `x`.
 
 ```{r}
 grafoR::vizinhos(y, 5)
 ```
 
-A função `grau(x, vertice)` retorna o grau do `vertice` no grafo `x`
+A função `grau(x, vertice)` retorna o grau do `vertice` no grafo `x`.
 
 ```{r}
 grafoR::grau(x, 2)
 ```
 
-A função `sequenciaGraus(x)` retorna a sequência de graus do grafo `x`
+A função `sequenciaGraus(x)` retorna a sequência de graus do grafo `x`.
 
 ```{r}
 grafoR::sequenciaGraus(y)
@@ -91,22 +95,23 @@ grafoR::sequenciaGraus(y)
 
 # Continuação da entrega do TP1
 
-A função `excentricidade(x, vertice)` retorna os vértices que distancião a excentricidade e a excentricidade do `vertice`
+A função `excentricidade(x, vertice)` retorna os vértices que distancião a excentricidade e a excentricidade do `vertice`.
 
 ```{r}
 grafoR::excentricidade(y, 2)
 ```
-A função `raio(x)` retorna o raio de `x` e os vértices que formam o raio
+A função `raio(x)` retorna o raio de `x` e os vértices que formam o raio.
 
 ```{r}
 grafoR::raio(y)
 ```
-A função `diametro(x)` retorna o diametro de `x` e os vértices que formam o diametro
+
+A função `diametro(x)` retorna o diametro de `x` e os vértices que formam o diametro.
 
 ```{r}
 diametro(y)
 ```
-A função `centro(x)` retorna o centro do grafo `x`
+A função `centro(x)` retorna o centro do grafo `x`.
 
 ```{r}
 grafoR::centro(y)
@@ -117,17 +122,61 @@ A função `buscaProfundidade(x, vertice)` retorna a sequência de vértices vis
 ```{r}
 grafoR::buscaProfundidade(y, 2)
 ```
-A função `distanciaCaminhoMinimo(x, vertice, verticeDestino)` retorna a distância e o caminho do `vertice` até o `verticeDestino`
+A função `distanciaCaminhoMinimo(x, vertice, verticeDestino)` retorna a distância e o caminho do `vertice` até o `verticeDestino`.
+Foi utilizado o algoritmo de Floyd-Warshall.
 
 ```{r}
 grafoR::distanciaCaminhoMinimo(x, 2, 6)
 ```
 
-A função `centralidade(x, vertice)` retorna a centralidade do `vertice` no grafo `x`
+A função `centralidade(x, vertice)` retorna a centralidade do `vertice` no grafo `x`.
 
 ```{r}
 grafoR::centralidade(x, 3)
 ```
 
+A função `grafoFromJSON(path, pathToSave)` pega o arquivo no caminho `path` que está em json e salva no padrão do tp no arquivo de caminho `pathToSave`.
+
+```{r}
+grafoR::grafoFromJSON("./exemplo.json", "./json.txt")
+```
+
+A função `grafoToJSON(path, pathToSave)` pega o arquivo no caminho `path` que está no padrão do tp e salva em json no arquivo de caminho `pathToSave`.
+
+```{r}
+grafoR::grafoToJSON("./exemplo", "./txt.json")
+```
 
 # Entrega do TP2
+
+A função `possuiCiclo(x)` retorna se o grafo `x` possui ciclo.
+
+```{r}
+grafoR::possuiCiclo(x)
+```
+
+A função `arvoreMinima(x, path=NULL)` retorna a um objeto do tipo grafo que é a árvore geradora mínima do grafo `x` e o seu peso total, caso passe um caminho de arquivo `path` ele irá salvar o grafo no padrão do TP com o peso total.
+Foi utilizado o algoritimo de Kruskal.
+
+
+```{r, results='hide'}
+grafoR::arvoreMinima(x)
+```
+
+```{r}
+grafoR::arvoreMinima(x, "./arvore.txt")
+```
+
+A função `coberturaMinima(x)` retorna os vértices da cobertura minima e o número de vértices.
+
+```{r}
+grafoR::coberturaMinima(x)
+```
+
+A função `emparelhamentoMaximo(x)` retorna as arestas do emparelhamento máximo do grafo `x`.
+Foi utilizado o algoritmo de Edmonds.
+
+```{r}
+grafoR::emparelhamentoMaximo(x)
+```
+

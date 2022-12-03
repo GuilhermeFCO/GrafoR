@@ -135,7 +135,7 @@ grafoToJSON <- function(path, pathToSave) {
 		aux$data$nodes$`_data`[[i]] <- list("id" = i, "label" = i)
 	}
 	names(aux$data$nodes$`_data`) <- 1:ordem(x)
-	matriz <- matrizAdjacencia(x)
+	matriz <- matrizAdjacencia(x)[[1]]
 	count <- 1
 
 	for (i in 1:nrow(matriz)) {

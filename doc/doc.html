@@ -421,11 +421,16 @@ printGrafo(y)</code></pre>
 </div>
 <div id="funções-feitas-no-tp1" class="section level2">
 <h2>Funções feitas no TP1</h2>
-<p>A função <code>ordem(x)</code> retorna a ordem de um grafo</p>
+<p>A função <code>ordem(x)</code> retorna a ordem do grafo
+<code>x</code></p>
 <pre class="r"><code>grafoR::ordem(y)</code></pre>
 <pre><code>## [1] 5</code></pre>
+<p>A função <code>tamanho(x)</code> retorna o tamanho do grafo
+<code>x</code></p>
 <pre class="r"><code>grafoR::tamanho(y)</code></pre>
 <pre><code>## [1] 6</code></pre>
+<p>A função <code>printGrafo(x, pesos=FALSE)</code> printa o grafo,
+mostrando ou não os pesos</p>
 <pre class="r"><code>grafoR::printGrafo(y)</code></pre>
 <pre><code>## 
 ## 
@@ -450,13 +455,96 @@ printGrafo(y)</code></pre>
 ## [4] -&gt; 3 (0.3) -&gt; 5 (4.6) -&gt; ≡
 ## 
 ## [5] -&gt; 2 (2.3) -&gt; 3 (-8.4) -&gt; 4 (4.6) -&gt; 1 (0.1) -&gt; ≡</code></pre>
+<p>A função <code>vizinhos(x, vertice)</code> retorna os vizinhos do
+<code>vertice</code> no grafo <code>x</code></p>
 <pre class="r"><code>grafoR::vizinhos(y, 5)</code></pre>
 <pre><code>## [1] 2 3 4 1</code></pre>
+<p>A função <code>grau(x, vertice)</code> retorna o grau do
+<code>vertice</code> no grafo <code>x</code></p>
 <pre class="r"><code>grafoR::grau(x, 2)</code></pre>
 <pre><code>## [1] 4</code></pre>
+<p>A função <code>sequenciaGraus(x)</code> retorna a sequência de graus
+do grafo <code>x</code></p>
 <pre class="r"><code>grafoR::sequenciaGraus(y)</code></pre>
 <pre><code>## [1] 4 2 2 2 2</code></pre>
 </div>
+</div>
+<div id="continuação-da-entrega-do-tp1" class="section level1">
+<h1>Continuação da entrega do TP1</h1>
+<p>A função <code>excentricidade(x, vertice)</code> retorna os vértices
+que distancião a excentricidade e a excentricidade do
+<code>vertice</code></p>
+<pre class="r"><code>grafoR::excentricidade(y, 2)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;1&quot;
+## 
+## [[2]]
+## [1] 1.2</code></pre>
+<p>A função <code>raio(x)</code> retorna o raio de <code>x</code> e os
+vértices que formam o raio</p>
+<pre class="r"><code>grafoR::raio(y)</code></pre>
+<pre><code>## [[1]]
+## [1] -15
+## 
+## [[2]]
+## [[2]][[1]]
+## [[2]][[1]][[1]]
+## [1] 5
+## 
+## [[2]][[1]][[2]]
+## [1] &quot;2&quot;</code></pre>
+<p>A função <code>diametro(x)</code> retorna o diametro de
+<code>x</code> e os vértices que formam o diametro</p>
+<pre class="r"><code>diametro(y)</code></pre>
+<pre><code>## [[1]]
+## [1] 1
+## 
+## [[2]]
+## [[2]][[1]]
+## [[2]][[1]][[1]]
+## [1] 2
+## 
+## [[2]][[1]][[2]]
+## [1] &quot;1&quot;</code></pre>
+<p>A função <code>centro(x)</code> retorna o centro do grafo
+<code>x</code></p>
+<pre class="r"><code>grafoR::centro(y)</code></pre>
+<pre><code>## [1] 5</code></pre>
+<p>A função <code>buscaProfundidade(x, vertice)</code> retorna a
+sequência de vértices visitados, uma matriz com 1 nas arestas que fazem
+parte da busca em profundidade e as arestas que não pertencem a busca em
+profundidade.</p>
+<pre class="r"><code>grafoR::buscaProfundidade(y, 2)</code></pre>
+<pre><code>## [[1]]
+## [1] 2 1 5 3 4
+## 
+## [[2]]
+##      [,1] [,2] [,3] [,4] [,5]
+## [1,]    0    1    0    0    1
+## [2,]    1    0    0    0   -1
+## [3,]    0    0    0    1    1
+## [4,]    0    0    1    0   -1
+## [5,]    1   -1    1   -1    0
+## 
+## [[3]]
+## [1] &quot;2 - 5&quot; &quot;4 - 5&quot;</code></pre>
+<p>A função
+<code>distanciaCaminhoMinimo(x, vertice, verticeDestino)</code> retorna
+a distância e o caminho do <code>vertice</code> até o
+<code>verticeDestino</code></p>
+<pre class="r"><code>grafoR::distanciaCaminhoMinimo(x, 2, 6)</code></pre>
+<pre><code>## [[1]]
+## [1] 5
+## 
+## [[2]]
+## [1] 2 4 6</code></pre>
+<p>A função <code>centralidade(x, vertice)</code> retorna a centralidade
+do <code>vertice</code> no grafo <code>x</code></p>
+<pre class="r"><code>grafoR::centralidade(x, 3)</code></pre>
+<pre><code>## [1] 0.4166667</code></pre>
+</div>
+<div id="entrega-do-tp2" class="section level1">
+<h1>Entrega do TP2</h1>
 </div>
 
 
