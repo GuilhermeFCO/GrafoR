@@ -1,5 +1,5 @@
 ---
-title: "doc"
+title: "Relatorio-3398"
 author: "Guilherme Fernandes"
 date: "2022-12-03"
 output: html_document
@@ -56,29 +56,29 @@ printGrafo(y)
 A função `ordem(x)` retorna a ordem do grafo `x.
 
 ```{r}
-grafoR::ordem(y)
+grafoR::ordem(x)
 ```
 
 A função `tamanho(x)` retorna o tamanho do grafo `x`.
 
 ```{r}
-grafoR::tamanho(y)
+grafoR::tamanho(x)
 ```
 
 A função `printGrafo(x, pesos=FALSE)` printa o grafo, mostrando ou não os pesos.
 
 ```{r}
-grafoR::printGrafo(y)
+grafoR::printGrafo(x)
 ```
 
 ```{r}
-grafoR::printGrafo(y, pesos = TRUE)
+grafoR::printGrafo(x, pesos = TRUE)
 ```
 
 A função `vizinhos(x, vertice)` retorna os vizinhos do `vertice` no grafo `x`.
 
 ```{r}
-grafoR::vizinhos(y, 5)
+grafoR::vizinhos(x, 5)
 ```
 
 A função `grau(x, vertice)` retorna o grau do `vertice` no grafo `x`.
@@ -90,7 +90,7 @@ grafoR::grau(x, 2)
 A função `sequenciaGraus(x)` retorna a sequência de graus do grafo `x`.
 
 ```{r}
-grafoR::sequenciaGraus(y)
+grafoR::sequenciaGraus(x)
 ```
 
 # Continuação da entrega do TP1
@@ -98,30 +98,33 @@ grafoR::sequenciaGraus(y)
 A função `excentricidade(x, vertice)` retorna os vértices que distancião a excentricidade e a excentricidade do `vertice`.
 
 ```{r}
-grafoR::excentricidade(y, 2)
+grafoR::excentricidade(x, 2)
 ```
+
 A função `raio(x)` retorna o raio de `x` e os vértices que formam o raio.
 
 ```{r}
-grafoR::raio(y)
+grafoR::raio(x)
 ```
 
 A função `diametro(x)` retorna o diametro de `x` e os vértices que formam o diametro.
 
 ```{r}
-grafoR::diametro(y)
+grafoR::diametro(x)
 ```
+
 A função `centro(x)` retorna o centro do grafo `x`.
 
 ```{r}
-grafoR::centro(y)
+grafoR::centro(x)
 ```
 
 A função `buscaProfundidade(x, vertice)` retorna a sequência de vértices visitados, uma matriz com 1 nas arestas que fazem parte da busca em profundidade e as arestas que não pertencem a busca em profundidade.
 
 ```{r}
-grafoR::buscaProfundidade(y, 2)
+grafoR::buscaProfundidade(x, 2)
 ```
+
 A função `distanciaCaminhoMinimo(x, vertice, verticeDestino)` retorna a distância e o caminho do `vertice` até o `verticeDestino`.
 Foi utilizado o algoritmo de Floyd-Warshall.
 
@@ -160,7 +163,8 @@ Foi utilizado o algoritimo de Kruskal.
 
 
 ```{r, results='hide'}
-grafoR::arvoreMinima(x)
+printGrafo(grafoR::arvoreMinima(x)[[1]])
+grafoR::arvoreMinima(x)[[2]]
 ```
 
 ```{r}
